@@ -19,3 +19,11 @@
    1. JDK Dynamic Proxy와 CGLib Proxy 모두 동작하도록 구현한다. 
    2. JDK Dynamic Proxy의 InvocationHandler, CGLib Proxy의 MethodInterceptor에서 하드코딩해서 구현한다.
    3. 하드코딩 대신 Interface를 추가해 추상화한다.
+
+# 2단계 - Proxy와 Bean 의존관계
+1. Bean 컨테이너의 Bean과 Proxy를 연결
+   1. Bean 컨테이너의 Bean과 Proxy를 연결하도록 Bean 컨테이너를 개선
+      1. 자바 객체가 특정 interface를 구현하는 경우 빈을 생성할 때 예외 처리하도록 Bean 컨테이너를 개선
+      2. 인터페이스를 구현하는 Bean이 있다면 FactoryBean 구현체를 Bean 컨테이너에 등록하지 않고, getObject() 메소드를 통해 반환되는 Bean을 Bean 컨테이너에 등록
+   2. Proxy가 추가될 때마다 FactoryBean을 매번 생성하는 것 대신 공통적으로 사용할 수 있는 FactoryBean 생성
+   3. Target, Advice, PointCut을 연결해 Proxy를 생성하는 재사용 가능한 FactoryBean을 추가

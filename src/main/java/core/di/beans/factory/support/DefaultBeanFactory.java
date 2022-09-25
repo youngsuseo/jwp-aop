@@ -45,15 +45,16 @@ public class DefaultBeanFactory implements BeanDefinitionRegistry, ConfigurableL
             return (T) bean;
         }
 
+        // TODO 빈 등록하는 부분은 여기로, 해당 로직이 어떤 로직인지 파악하고 bean 등록을 구현체로 등록하는 것 대신 FactoryBean의 getObject로 등록...
         BeanDefinition beanDefinition = beanDefinitions.get(clazz);
         if (beanDefinition != null && beanDefinition instanceof AnnotatedBeanDefinition) {
             Optional<Object> optionalBean = createAnnotatedBean(beanDefinition);
-            optionalBean.ifPresent(b -> beans.put(clazz, b));
+            optionalBean.ifPresent(b -> beans.put(clazz, b)); // FIXME 여기도 고려
             initialize(bean, clazz);
             return (T) optionalBean.orElse(null);
         }
 
-        Optional<Class<?>> concreteClazz = BeanFactoryUtils.findConcreteClass(clazz, getBeanClasses());
+        Optional<Class<?>> concreteClazz = BeanFactoryUtils.findConcreteClass(clazz, getBeanClasses()); // FIXME interface 구현체 등록
         if (!concreteClazz.isPresent()) {
             return null;
         }
@@ -61,7 +62,7 @@ public class DefaultBeanFactory implements BeanDefinitionRegistry, ConfigurableL
         beanDefinition = beanDefinitions.get(concreteClazz.get());
         log.debug("BeanDefinition : {}", beanDefinition);
         bean = inject(beanDefinition);
-        beans.put(concreteClazz.get(), bean);
+        beans.put(concreteClazz.get(), bean); // FIXME 빈 등록하는 곳으로 이전에 찾아올 때 이미 구현체 대신 proxy 사용하도록
         initialize(bean, concreteClazz.get());
         return (T) bean;
     }
