@@ -15,7 +15,7 @@ class HelloCGLibProxyTest {
     @ValueSource(strings = "one")
     void returnUpperCase(String name) {
         EnhancerWrapper enhancerWrapper = new EnhancerWrapper(HelloTarget.class, new UppercaseMethodInterceptor());
-        HelloTarget helloTarget = (HelloTarget) enhancerWrapper.create();
+        HelloTarget helloTarget = enhancerWrapper.create();
 
         assertAll(
                 () -> assertEquals(helloTarget.sayHello(name), "HELLO ONE"),

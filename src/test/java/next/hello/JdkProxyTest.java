@@ -27,7 +27,7 @@ public class JdkProxyTest {
     void toUppercaseWithCGLib() {
         EnhancerWrapper enhancerWrapper = new EnhancerWrapper(HelloTarget.class,
                 new UppercaseMethodInterceptor((method, targetClass, args) -> method.getName().startsWith("say")));
-        HelloTarget helloTarget = (HelloTarget) enhancerWrapper.create();
+        HelloTarget helloTarget = enhancerWrapper.create();
 
         assertThat(helloTarget.sayHello("javajigi")).isEqualTo("HELLO JAVAJIGI");
         assertThat(helloTarget.sayHi("javajigi")).isEqualTo("HI JAVAJIGI");
