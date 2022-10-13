@@ -6,6 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.lang.reflect.Method;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HelloCGLibProxyTest {
@@ -15,7 +17,7 @@ class HelloCGLibProxyTest {
     @ValueSource(strings = "one")
     void returnUpperCase(String name) {
         EnhancerWrapper enhancerWrapper = new EnhancerWrapper(HelloTarget.class, new UppercaseMethodInterceptor());
-        HelloTarget helloTarget = (HelloTarget) enhancerWrapper.create();
+        HelloTarget helloTarget = enhancerWrapper.create();
 
         assertAll(
                 () -> assertEquals(helloTarget.sayHello(name), "HELLO ONE"),

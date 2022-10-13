@@ -2,6 +2,9 @@ package core.di.factory.example;
 
 import core.annotation.Bean;
 import core.annotation.Configuration;
+import core.di.beans.factory.FactoryBean;
+import next.factory.HelloFactoryBean;
+import next.hello.Hello;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.sql.DataSource;
@@ -16,5 +19,10 @@ public class ExampleConfig {
         ds.setUsername("sa");
         ds.setPassword("");
         return ds;
+    }
+
+    @Bean
+    public FactoryBean<Hello> helloFactoryBean() {
+        return new HelloFactoryBean();
     }
 }
